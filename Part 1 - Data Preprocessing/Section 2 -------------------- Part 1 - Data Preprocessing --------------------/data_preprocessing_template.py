@@ -19,3 +19,18 @@ from sklearn.preprocessing import Imputer
 imputer = Imputer(missing_values='NaN', strategy='mean', axis=0)
 imputer = imputer.fit(X[:, 1:3])
 X[:, 1:3] = imputer.transform(X[:, 1:3])
+
+# Encoding categorical data
+from sklearn.preprocessing import LabelEncoder, OneHotEncoder
+labelEncoder_X = LabelEncoder()
+# This will encode the first column as a number. The numbers has the idea of comparing each other so one value could be bigger than other. 
+# The problem with this is that these are categories not numbers, and it doesn't make sense to compare them as numbers
+X[:, 0] = labelEncoder_X.fit_transform(X[:, 0])
+
+# The following lines will encode a column with 1 for each o the categories on a colum category. In this case, the first column.
+# This category encoding is called dummy variables.
+oneHotEncoder = OneHotEncoder(categorical_features=[0])
+X = oneHotEncoder.fit_transform(X).toarray()
+
+labelEncoder_Y = LabelEncoder()
+Y = labelEncoder_Y.fit_transform(Y)
